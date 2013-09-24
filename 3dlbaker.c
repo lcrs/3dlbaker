@@ -10,6 +10,27 @@
 	#include "/usr/discreet/flame_2013.0.2/sparks/spark.h"
 #endif
 
+unsigned long *bam(int i, SparkInfoStruct si);
+
+SparkBooleanStruct SparkBoolean14 = {
+	0,
+	(char *) "Output test pattern",
+	NULL
+};
+
+SparkStringStruct SparkString16 = {
+	"/tmp/t.3dl",
+	(char *) "Output to: %s",
+	0,
+	NULL
+};
+
+SparkPushStruct SparkPush30 = {
+	(char *) "Write .3dl",
+	bam
+};
+
+// Check a buffer is gonna work
 int getbuf(int n, SparkMemBufStruct *b) {
 	if(!sparkMemGetBuffer(n, b)) {
 		printf("Failed to get buffer %d\n", n);
@@ -22,16 +43,14 @@ int getbuf(int n, SparkMemBufStruct *b) {
 	return(1);
 }
 
-SparkBooleanStruct SparkBoolean15 = {
-	0,
-	(char *) "Output test pattern",
-	NULL
-};
-
-SparkPushStruct SparkPush16 = {
-	(char *) "Write .3dl",
-	NULL
-};
+// Write the LUT
+unsigned long *bam(int i, SparkInfoStruct si) {
+	int fd;
+	fd = open(SparkString16.Value, O_CREAT | O_WRONLY | O_TRUNC, 0000666);
+	write(fd, "hi", 2);
+	close(fd);
+	return(NULL);
+}
 
 // Work
 unsigned long *SparkProcess(SparkInfoStruct si) {
