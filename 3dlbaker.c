@@ -22,6 +22,17 @@ int getbuf(int n, SparkMemBufStruct *b) {
 	return(1);
 }
 
+SparkBooleanStruct SparkBoolean15 = {
+	0,
+	(char *) "Output test pattern",
+	NULL
+};
+
+SparkPushStruct SparkPush16 = {
+	(char *) "Write .3dl",
+	NULL
+};
+
 // Work
 unsigned long *SparkProcess(SparkInfoStruct si) {
 	SparkMemBufStruct result, input;
