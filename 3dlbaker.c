@@ -119,9 +119,9 @@ unsigned long *SparkProcess(SparkInfoStruct si) {
 				g = (unsigned short *) (p + sizeof(short));
 				b = (unsigned short *) (p + 2 * sizeof(short));
 
-				*r = steps[(i / (17 * 17)) % 17] * 64;
-				*g = steps[(i / (17 *  1)) % 17] * 64;
-				*b = steps[(i / ( 1 *  1)) % 17] * 64;
+				*r = steps[(i / (17 * 17)) % 17] * (4095.0/1023.0) * 16;
+				*g = steps[(i / (17 *  1)) % 17] * (4095.0/1023.0) * 16;
+				*b = steps[(i / ( 1 *  1)) % 17] * (4095.0/1023.0) * 16;
 
 				i++;
 			}
