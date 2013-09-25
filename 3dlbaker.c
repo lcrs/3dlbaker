@@ -11,11 +11,12 @@
 #endif
 
 unsigned long *bam(int i, SparkInfoStruct si);
+unsigned long *toggle(int i, SparkInfoStruct si);
 
 SparkBooleanStruct SparkBoolean14 = {
 	0,
 	(char *) "Output test pattern",
-	NULL
+	toggle
 };
 
 SparkStringStruct SparkString16 = {
@@ -64,6 +65,12 @@ unsigned long *bam(int i, SparkInfoStruct si) {
 	return(NULL);
 }
 
+// Switch display
+unsigned long *toggle(int i, SparkInfoStruct si) {
+	sparkReprocess();
+	return(NULL);
+}
+
 // Work
 unsigned long *SparkProcess(SparkInfoStruct si) {
 	SparkMemBufStruct result, input;
@@ -72,16 +79,22 @@ unsigned long *SparkProcess(SparkInfoStruct si) {
 	if(!getbuf(2, &input)) return(NULL);
 
 	if(SparkBoolean14.Value) {
-		float i = 0.0;
-		for(int x = 0; x < result.BufWidth; x++) {
-			for(int y = 0; y < result.BufHeight; y++) {
-				half *r = (half *) (result.Buffer + y * result.Stride + x * result.Inc);
-				half *g = (half *) (result.Buffer + y * result.Stride + x * result.Inc) + sizeof(half);
-				half *b = (half *) (result.Buffer + y * result.Stride + x * result.Inc) + 2 * sizeof(half);
-				*r = i / (1920.0 * 1080.0);
-				*g = i / (1920.0 * 1080.0);
-				*b = i / (1920.0 * 1080.0);
-				i = i + 1.0;
+		unsigned long i = 0;
+		char *p;
+		for(int y = 0; y < result.BufHeight; y++) {
+			for(int x = 0; x < result.BufWidth; x++) {
+				p = ((char *) result.Buffer) + y * result.Stride + x * result.Inc;
+
+				unsigned int *r, *g, *b;
+				r = (unsigned int *) p;
+				g = (unsigned int *) (p + sizeof(short));
+				b = (unsigned int *) (p + 2 * sizeof(short));
+				
+				*r = x << 4;
+				*g = y << 4;
+				*b = 4095 << 4;
+
+				i++;
 			}
 		}
 	} else {
@@ -107,7 +120,7 @@ unsigned int SparkInitialise(SparkInfoStruct si) {
 // Bit depths yo
 int SparkIsInputFormatSupported(SparkPixelFormat fmt) {
 	switch(fmt) {
-		case SPARKBUF_RGB_48_3x16_FP:
+		case SPARKBUF_RGB_48_3x12:
 			return(1);
 		default:
 			return(0);
