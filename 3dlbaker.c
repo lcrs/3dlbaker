@@ -1,6 +1,10 @@
 // 3dlbaker
 // Bakes colour corrections into a .3dl LUT
 // lewis@lewissaunders.com
+// TODO:
+//   o accept 16 float input
+//   o prettier pattern, preferably same as Nuke's
+//   o accuracy down to 1 12-bit code value if possible
 
 #include "half.h"
 
