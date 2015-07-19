@@ -8,11 +8,7 @@
 
 #include "half.h"
 
-#ifdef __APPLE__
-	#include "/usr/discreet/smoke_2013.2.53/sparks/spark.h"
-#else
-	#include "/usr/discreet/flame_2013.0.2/sparks/spark.h"
-#endif
+#include "/usr/discreet/presets/2016/sparks/spark.h"
 
 unsigned long *bam(int what, SparkInfoStruct si);
 unsigned long *toggle(int what, SparkInfoStruct si);
@@ -64,7 +60,11 @@ unsigned long *bam(int what, SparkInfoStruct si) {
 						 "gamma 1.0\n"
 						 "\n";
 
-	fd = fopen(SparkString16.Value, "w");
+	// Seems the string is stored with \n on the end...
+	char lutfile[256];
+	strncpy(lutfile, SparkString16.Value, strlen(SparkString16.Value) - 1);
+
+	fd = fopen(lutfile, "w");
 	fprintf(fd, "%s", header);
 
 	SparkMemBufStruct input;
