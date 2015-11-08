@@ -158,9 +158,9 @@ $(OFILES) : %.o : %.c
 	$(LD) $(LDFLAGS) $(SPARKSOURCE)/$*.o -o $(SPARKDESTINATION)/$*.$(SPARK_EXTENSION)
 
 $(SFILES_C++) : $(OFILES_C++)
-$(OFILES_C++) : %.o : %.C
+$(OFILES_C++) : %.o : %.c
 	@echo ""
 	@echo "MAKING SPARK ..."
-	$(CXX) $(CFLAGS) -c $(SPARKSOURCE)/$*.C -o $(SPARKSOURCE)/$*.o
+	$(CXX) $(CFLAGS) -c $(SPARKSOURCE)/$*.c -o $(SPARKSOURCE)/$*.o
 	$(CXX) $(LDFLAGS) $(SPARKSOURCE)/$*.o -o $(SPARKDESTINATION)/$*.$(SPARK_EXTENSION)
 	@echo "DONE."
